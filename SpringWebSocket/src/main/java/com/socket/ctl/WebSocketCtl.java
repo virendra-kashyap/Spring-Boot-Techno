@@ -2,21 +2,18 @@ package com.socket.ctl;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
 
 import com.socket.model.Greeting;
 import com.socket.model.HelloMessage;
 
-public class WebSocketController {
-
-	@RequestMapping("/")
-	public String index() {
-		return "index";
-	}
+@Controller
+public class WebSocketCtl {
 
 	@MessageMapping("/hello")
 	@SendTo("/topic/greetings")
-	public Greeting greeting(HelloMessage message) {
+	public Greeting greeting(HelloMessage message) throws Exception {
+		Thread.sleep(1000);
 		return new Greeting("Hello, " + message.getName() + "!");
 	}
 
