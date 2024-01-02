@@ -28,7 +28,8 @@ public class DirectoryWatcherService {
 		try {
 			WatchService watchService = FileSystems.getDefault().newWatchService();
 			Path path = Paths.get(directoryPath);
-			path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+			path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY,
+					StandardWatchEventKinds.ENTRY_DELETE);
 
 			new Thread(() -> {
 				while (true) {
@@ -39,10 +40,12 @@ public class DirectoryWatcherService {
 						return;
 					}
 					for (WatchEvent<?> event : key.pollEvents()) {
-						if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
+						if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE
+								|| event.kind() == StandardWatchEventKinds.ENTRY_MODIFY
+								|| event.kind() == StandardWatchEventKinds.ENTRY_DELETE) {
 							String folderName = event.context().toString();
 							System.out.println("new folder created : " + folderName);
-							simpMessagingTemplate.convertAndSend("/topic/new-folder");
+							simpMessagingTemplate.convertAndSend("/topic/new-folder", folderName);
 						}
 					}
 					key.reset();

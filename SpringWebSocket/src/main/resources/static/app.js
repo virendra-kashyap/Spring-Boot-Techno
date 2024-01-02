@@ -18,10 +18,21 @@ function connect() {
 	stompClient.connect({}, function(frame) {
 		setConnected(true);
 		console.log('Connected: ' + frame);
-		stompClient.subscribe('/topic/greetings', function(greeting) {
-			showGreeting(JSON.parse(greeting.body).content);
+		stompClient.subscribe('/topic/greetings', function(message) {
+			handleTopicMessage('/topic/greetings', message);
 		});
+		stompClient.subscribe('/topic/new-folder', function(message) {
+			handleTopicMessage('/topic/new-folder', message);
 	});
+	});
+}
+
+function handleTopicMessage(topic, message) {
+	if (topic === '/topic/greetings') {
+		showGreeting(JSON.parse(message.body).content);
+	} else if (topic === '/topic/new-folder') {
+		showGreeting(message.body);
+	}
 }
 
 function disconnect() {
