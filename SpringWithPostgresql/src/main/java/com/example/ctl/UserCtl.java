@@ -39,4 +39,17 @@ public class UserCtl {
 		return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 	}
 
+@GetMapping("/getById/{id}")
+	public ResponseEntity<?> getById(@PathVariable("id") long id) {
+		com.example.bean.ResponseEntity<?> responseEntity = null;
+		try {
+			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.getById(id),
+					"User fetched successfully !!", true);
+			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+		} catch (Exception e) {
+			responseEntity = new com.example.bean.ResponseEntity<>(e.getMessage(), false);
+			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }
