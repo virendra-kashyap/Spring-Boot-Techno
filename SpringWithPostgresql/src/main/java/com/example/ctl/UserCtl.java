@@ -32,11 +32,19 @@ public class UserCtl {
 		}
 	}
 
-	@PostMapping("/save")
+		@PostMapping("/save")
 	public ResponseEntity<?> save(@RequestBody UserDTO userDTO) {
 		com.example.bean.ResponseEntity<?> responseEntity = null;
-		responseEntity =  new com.example.bean.ResponseEntity<>(userServiceInt.add(userDTO), "User Created Successfully", true);
-		return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+
+		if (userDTO.getId() > 0 && userDTO != null) {
+			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.update(userDTO),
+					"User Created Successfully", true);
+			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+		} else {
+			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.add(userDTO),
+					"User Created Successfully", true);
+			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+		}
 	}
 
 @GetMapping("/getById/{id}")
