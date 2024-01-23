@@ -24,9 +24,12 @@ public class UserServiceImpl implements UserServiceInt {
 	}
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	public void update(UserDTO userDTO) {
 
+		UserDTO dto = getById(userDTO.getId());
+		if (dto != null) {
+			userRepository.save(userDTO);
+		}
 	}
 
 	@Override

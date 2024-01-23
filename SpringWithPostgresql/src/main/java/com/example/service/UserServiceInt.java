@@ -8,7 +8,7 @@ public interface UserServiceInt {
 
 	public long add(UserDTO userDTO);
 
-	public void update();
+	public void update(UserDTO userDTO);
 
 	public List<UserDTO> list();
 
