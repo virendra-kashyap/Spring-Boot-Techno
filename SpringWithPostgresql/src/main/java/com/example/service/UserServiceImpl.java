@@ -24,12 +24,14 @@ public class UserServiceImpl implements UserServiceInt {
 	}
 
 	@Override
-	public void update(UserDTO userDTO) {
+	public UserDTO update(UserDTO userDTO) {
 
 		UserDTO dto = getById(userDTO.getId());
 		if (dto != null) {
 			userRepository.save(userDTO);
+			return userDTO;
 		}
+		return null;
 	}
 
 	@Override
@@ -45,11 +47,13 @@ public class UserServiceImpl implements UserServiceInt {
 	}
 
 	@Override
-	public void delete(long id) {
+	public UserDTO delete(long id) {
 		UserDTO userDTO = getById(id);
 		if (userDTO != null) {
 			userRepository.delete(userDTO);
+			return userDTO;
 		}
+		return null;
 	}
 
 }

@@ -8,12 +8,12 @@ public interface UserServiceInt {
 
 	public long add(UserDTO userDTO);
 
-	public void update(UserDTO userDTO);
+	public UserDTO update(UserDTO userDTO);
 
 	public List<UserDTO> list();
 
 	public UserDTO getById(long id);
 
-	public void delete(long id);
+	public UserDTO delete(long id);
 
 }

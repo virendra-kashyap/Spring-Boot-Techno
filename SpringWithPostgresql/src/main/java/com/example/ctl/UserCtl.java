@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.bean.ORSResponseEntity;
 import com.example.dto.UserDTO;
 import com.example.service.UserServiceInt;
 
@@ -23,58 +23,65 @@ public class UserCtl {
 
 	@GetMapping("/allUsers")
 	public ResponseEntity<?> allUsers() {
-		com.example.bean.ResponseEntity<?> responseEntity = null;
+		ORSResponseEntity<?> responseEntity = null;
 		try {
-			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.list(),
-					"User fetched successfully !!", true);
+			responseEntity = new ORSResponseEntity<>(userServiceInt.list(), "User fetched successfully !!", true);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
-			responseEntity = new com.example.bean.ResponseEntity<>(e.getMessage(), false);
+			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
 			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 		@PostMapping("/save")
 	public ResponseEntity<?> save(@RequestBody UserDTO userDTO) {
-		com.example.bean.ResponseEntity<?> responseEntity = null;
+		ORSResponseEntity<?> responseEntity = null;
+
+		try {
+			responseEntity = new ORSResponseEntity<>(userServiceInt.add(userDTO), "User Created Successfully", true);
+			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+		} catch (Exception e) {
+			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
+			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PostMapping("/update")
+	public ResponseEntity<?> update(@RequestBody UserDTO userDTO) {
+		ORSResponseEntity<?> responseEntity = null;
 
 		try {
 			if (userDTO.getId() > 0) {
-			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.update(userDTO),
-						"Update Record Successfully", true);
+				userServiceInt.update(userDTO);
+				responseEntity = new ORSResponseEntity<>("User Update Successfully", true);
+			}
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
-		} else {
-			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.add(userDTO),
-					"User Created Successfully", true);
-			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
-		}
 		} catch (Exception e) {
+			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
+			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 @GetMapping("/getById/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") long id) {
-		com.example.bean.ResponseEntity<?> responseEntity = null;
+		ORSResponseEntity<?> responseEntity = null;
 		try {
-			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.getById(id),
-					"User fetched successfully !!", true);
+			responseEntity = new ORSResponseEntity<>(userServiceInt.getById(id), "User fetched successfully !!", true);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
-			responseEntity = new com.example.bean.ResponseEntity<>(e.getMessage(), false);
+			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
 			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
 		}
 	}
 
 @GetMapping("/delete/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") long id) {
-		com.example.bean.ResponseEntity<?> responseEntity = null;
+		ORSResponseEntity<?> responseEntity = null;
 		try {
-			responseEntity = new com.example.bean.ResponseEntity<>(userServiceInt.delete(id),
-					"User fetched successfully !!", true);
+			responseEntity = new ORSResponseEntity<>(userServiceInt.delete(id), "Delete user successfully !!", true);
 			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 		} catch (Exception e) {
-			responseEntity = new com.example.bean.ResponseEntity<>(e.getMessage(), false);
+			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
 			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
 		}
 	}

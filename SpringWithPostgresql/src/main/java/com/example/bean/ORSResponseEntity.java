@@ -10,24 +10,24 @@ import lombok.Setter;
 @Setter
 @JsonInclude()
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseEntity<T> {
+public class ORSResponseEntity<T> {
 
 	private T data;
 	private String message;
 	private boolean isSuccess;
 
-	public ResponseEntity() {
+	public ORSResponseEntity() {
 		super();
 	}
 
-	public ResponseEntity(T data, String message, boolean isSuccess) {
+	public ORSResponseEntity(T data, String message, boolean isSuccess) {
 		super();
 		this.data = data;
 		this.message = message;
 		this.isSuccess = isSuccess;
 	}
 
-	public ResponseEntity(String message, boolean isSuccess) {
+	public ORSResponseEntity(String message, boolean isSuccess) {
 		super();
 		this.message = message;
 		this.isSuccess = isSuccess;
