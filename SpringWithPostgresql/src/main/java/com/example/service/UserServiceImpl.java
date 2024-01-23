@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserServiceInt {
 
 	@Override
 	public List<UserDTO> list() {
-		List<UserDTO> list = userRepository.findAll();
-		return list;
+		return userRepository.findAll();
 	}
 
 	@Override
