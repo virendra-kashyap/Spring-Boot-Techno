@@ -43,7 +43,10 @@ public class UserServiceImpl implements UserServiceInt {
 	@Override
 	public UserDTO getById(long id) {
 		Optional<UserDTO> data =  userRepository.findById(id);
+		if (data.isPresent()) {
 		return data.get();
+	}
+		return null;
 	}
 
 	@Override
