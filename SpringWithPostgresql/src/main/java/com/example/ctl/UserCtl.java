@@ -1,6 +1,5 @@
 package com.example.ctl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,11 @@ import com.example.service.UserServiceInt;
 @RequestMapping("/api/v1/user")
 public class UserCtl {
 
-	@Autowired
-	UserServiceInt userServiceInt;
+	private final UserServiceInt userServiceInt;
+
+	public UserCtl(UserServiceInt userServiceInt) {
+		this.userServiceInt = userServiceInt;
+	}
 
 	@GetMapping("/allUsers")
 	public ResponseEntity<?> allUsers() {
@@ -52,10 +54,11 @@ public class UserCtl {
 
 		try {
 			if (userDTO.getId() > 0) {
-				userServiceInt.update(userDTO);
-				responseEntity = new ORSResponseEntity<>("User Update Successfully", true);
+				responseEntity = new ORSResponseEntity<>(userServiceInt.update(userDTO), "User Update Successfully",
+						true);
+				return new ResponseEntity<>(responseEntity, HttpStatus.OK);
 			}
-			return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			responseEntity = new ORSResponseEntity<>(e.getMessage(), false);
 			return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);

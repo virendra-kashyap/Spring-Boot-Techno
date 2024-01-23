@@ -3,7 +3,6 @@ package com.example.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +13,11 @@ import com.example.repository.UserRepository;
 @Transactional
 public class UserServiceImpl implements UserServiceInt {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	public long add(UserDTO userDTO) {
@@ -25,7 +27,6 @@ public class UserServiceImpl implements UserServiceInt {
 
 	@Override
 	public UserDTO update(UserDTO userDTO) {
-
 		UserDTO dto = getById(userDTO.getId());
 		if (dto != null) {
 			userRepository.save(userDTO);
