@@ -16,4 +16,8 @@ public interface UserServiceInt {
 
 	public UserDTO delete(long id);
 
+	public UserDTO findLoginId(String loginId);
+
+	public UserDTO authenticate(String loginId, String password);
+
 }

@@ -59,4 +59,24 @@ public class UserServiceImpl implements UserServiceInt {
 		return null;
 	}
 
+	@Override
+	public UserDTO findLoginId(String loginId) {
+		UserDTO userDTO = userRepository.findLoginId(loginId);
+		if (userDTO == null) {
+			return null;
+		}
+		return userDTO;
+	}
+
+	@Override
+	public UserDTO authenticate(String loginId, String password) {
+		UserDTO userDTO = findLoginId(loginId);
+		if (userDTO != null) {
+			if ((userDTO.getPassword()).equals(password)) {
+				return userDTO;
+			}
+		}
+		return null;
+	}
+
 }
